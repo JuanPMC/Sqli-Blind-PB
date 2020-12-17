@@ -5,3 +5,5 @@ def ysisi(webpage, comprobador):
     if res != -1:
         return True
     return False
+
+print(ysisi('holaguanillo bananero', 'Hola'))
